@@ -15,8 +15,6 @@ type Event struct {
 	UserID      int
 }
 
-// var events = []Event{}
-
 func (e Event) Save() error {
 
 	query := `
@@ -94,4 +92,17 @@ func (event *Event) Update() error {
 
 	_, err = stmt.Exec(event.Name, event.Description, event.Location, event.DateTime, event.ID)
 	return err
+}
+
+func (event *Event) Delete(eventId int64) error {
+
+	query := `DELETE FROM events WHERE id = ?`
+
+	_, err := db.DB.Exec(query, eventId)
+
+	if err != nil {
+		return err
+	}
+	return nil
+
 }
